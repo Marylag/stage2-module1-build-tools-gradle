@@ -1,35 +1,26 @@
 plugins {
-    // id for library
-    // id for maven to publish jar to local repository
-    id 'java-library'
-    id 'maven-publish'
+    id 'java'
 }
 
 java {
-// provide sourceCompatibility
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
-// provide repository, where required dependencies are located
     mavenCentral()
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-// provide groupId
-// provide artifactId
-// provide version
-            groupId = 'com.mjcschool'
-            artifactId = 'utils'
-            version = '3.9.5'
+            groupId = 'com.epam.utils'
+            artifactId = 'stringutils'
+            version = '1.0.0'
+
             from components.java
         }
     }
 }
-
-//add Apache Apache Commons Lang 3.10 (or higher) dependency
 
 dependencies {
     implementation 'org.apache.commons:commons-lang3:3.10'
@@ -37,9 +28,8 @@ dependencies {
 
 jar {
     manifest {
-        //provide manifest with such attributes as 'Implementation-Title', 'Implementation-Version'
         attributes(
-            'Implementation-Title': 'Utilis',
+                'Implementation-Title': 'Utils',
                 'Implementation-Version': version
         )
     }
@@ -49,4 +39,6 @@ test {
     useJUnitPlatform()
 }
 
-publishMavenPublicationToMavenLocal {}.mustRunAfter('build')
+tasks.named('publishMavenPublicationToMavenLocal').configure {
+    mustRunAfter('build')
+}
